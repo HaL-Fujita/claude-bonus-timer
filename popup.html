@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+<div class="led-border" id="ledBorder"></div>
+<div class="flash-overlay" id="flashOverlay"></div>
+<div class="particles" id="particles"></div>
+
+<div class="container">
+  <div class="title">
+    <h1>CLAUDE BONUS TIME</h1>
+    <div class="sub">~ 激アツ2倍チャンス ~</div>
+  </div>
+
+  <div class="period-badge">
+    <span id="periodBadge">2026/3/13 ~ 3/27</span>
+  </div>
+
+  <!-- Reel Decoration -->
+  <div class="reel-deco" id="reelDeco">
+    <div class="reel" id="reel1"><div class="reel-inner">7</div><div class="reel-highlight"></div></div>
+    <div class="reel" id="reel2"><div class="reel-inner">7</div><div class="reel-highlight"></div></div>
+    <div class="reel" id="reel3"><div class="reel-inner">7</div><div class="reel-highlight"></div></div>
+  </div>
+
+  <!-- GOGO Lamp -->
+  <div class="gogo-lamp off" id="gogoLamp">
+    <div class="lamp-ring"></div>
+    <div class="lamp-text" id="lampText">GOGO!</div>
+    <div class="lamp-sub" id="lampSub">x2 BONUS</div>
+  </div>
+
+  <!-- Status -->
+  <div class="status-area">
+    <div class="status-label" id="statusLabel">現在のステータス</div>
+    <div class="status-text off" id="statusText">確認中...</div>
+  </div>
+
+  <!-- Multiplier -->
+  <div class="multiplier">
+    <div class="multiplier-badge x1" id="multiplierBadge">x1</div>
+  </div>
+
+  <!-- Countdown -->
+  <div class="countdown-area">
+    <div class="countdown-label" id="countdownLabel">次のボーナスまで</div>
+    <div class="countdown-time to-bonus" id="countdownTime">--:--:--</div>
+  </div>
+
+  <!-- Today's Timeline -->
+  <div class="timeline">
+    <div class="timeline-title">本日のタイムライン（JST）</div>
+    <div class="timeline-bar-wrapper">
+      <div class="time-labels" id="timeLabels"></div>
+      <div class="timeline-bar" id="timelineBar"></div>
+      <div class="time-indicator" id="timeIndicator"></div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot bonus"></div>x2 ボーナス</div>
+      <div class="legend-item"><div class="legend-dot normal"></div>通常（x1）</div>
+    </div>
+  </div>
+
+  <!-- Weekly Schedule -->
+  <div class="weekly">
+    <div class="weekly-title">スケジュール一覧</div>
+    <div class="weekly-grid" id="weeklyGrid"></div>
+  </div>
+
+  <!-- Info -->
+  <div class="info-panel">
+    <h3>ボーナス詳細</h3>
+    <div class="info-row">
+      <span class="label">ピーク（通常）</span>
+      <span class="value">平日 22:00~翌4:00 JST</span>
+    </div>
+    <div class="info-row">
+      <span class="label">ボーナス（x2）</span>
+      <span class="value hot">上記以外 + 週末全日</span>
+    </div>
+    <div class="info-row">
+      <span class="label">対象</span>
+      <span class="value">Free / Pro / Max / Team</span>
+    </div>
+    <div class="info-row">
+      <span class="label">対象外</span>
+      <span class="value">Enterprise</span>
+    </div>
+    <div class="info-row">
+      <span class="label">自動適用</span>
+      <span class="value">設定不要・自動</span>
+    </div>
+  </div>
+
+  <!-- Promo end countdown -->
+  <div class="promo-end">
+    <div class="end-label">キャンペーン終了まで</div>
+    <div class="end-countdown" id="promoEndCountdown">--日 --:--:--</div>
+  </div>
+
+  <div class="footer">
+    Claude March 2026 Usage Promotion | Anthropic
+  </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>

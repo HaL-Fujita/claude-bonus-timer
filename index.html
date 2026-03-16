@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude ボーナスタイム 〜激アツ2倍チャンス〜</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #ffd700;
+    --gold-dark: #b8860b;
+    --red-hot: #ff1744;
+    --red-glow: #ff4444;
+    --neon-blue: #00bfff;
+    --neon-purple: #a855f7;
+    --rainbow-1: #ff0000;
+    --rainbow-2: #ff8800;
+    --rainbow-3: #ffdd00;
+    --rainbow-4: #00ff44;
+    --rainbow-5: #0088ff;
+    --rainbow-6: #8800ff;
+    --rainbow-7: #ff00ff;
+  }
+
+  body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: 'Noto Sans JP', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* LED Border Animation */
+  .led-border {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .led-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 4px solid transparent;
+    border-image: repeating-linear-gradient(
+      90deg,
+      var(--rainbow-1), var(--rainbow-2), var(--rainbow-3),
+      var(--rainbow-4), var(--rainbow-5), var(--rainbow-6), var(--rainbow-7)
+    ) 4;
+    animation: ledRotate 2s linear infinite;
+  }
+  @keyframes ledRotate {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+
+  .led-border.off::before {
+    border-image: repeating-linear-gradient(90deg, #333, #555) 4;
+    animation: none;
+  }
+
+  /* LED dots along edges */
+  .led-dots {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 101;
+  }
+
+  /* Main Container */
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px 16px;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Title */
+  .title {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .title h1 {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow:
+      0 0 10px var(--gold),
+      0 0 20px var(--gold-dark),
+      2px 2px 0 #000;
+    letter-spacing: 2px;
+  }
+  .title .sub {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 4px;
+  }
+
+  /* Period Badge */
+  .period-badge {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .period-badge span {
+    display: inline-block;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    text-shadow: 0 0 8px var(--neon-blue);
+  }
+
+  /* GOGO Lamp */
+  .gogo-lamp {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .gogo-lamp.bonus {
+    background: radial-gradient(circle, #ff6b00 0%, #ff1744 40%, #880000 70%, #1a0000 100%);
+    box-shadow:
+      0 0 30px var(--red-hot),
+      0 0 60px var(--red-hot),
+      0 0 100px rgba(255, 23, 68, 0.5),
+      inset 0 0 30px rgba(255, 255, 0, 0.3);
+    animation: lampPulse 0.8s ease-in-out infinite alternate;
+  }
+
+  .gogo-lamp.bonus.rainbow {
+    background: conic-gradient(
+      from 0deg,
+      #ff0000, #ff8800, #ffdd00, #00ff44,
+      #0088ff, #8800ff, #ff00ff, #ff0000
+    );
+    box-shadow:
+      0 0 40px var(--rainbow-3),
+      0 0 80px var(--rainbow-5),
+      0 0 120px var(--rainbow-7);
+    animation: lampPulse 0.5s ease-in-out infinite alternate, rainbowSpin 3s linear infinite;
+  }
+
+  .gogo-lamp.off {
+    background: radial-gradient(circle, #2a2a2a 0%, #1a1a1a 60%, #0a0a0a 100%);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+  }
+
+  @keyframes lampPulse {
+    0% { transform: scale(1); filter: brightness(1); }
+    100% { transform: scale(1.05); filter: brightness(1.3); }
+  }
+
+  @keyframes rainbowSpin {
+    0% { filter: hue-rotate(0deg) brightness(1.2); }
+    100% { filter: hue-rotate(360deg) brightness(1.2); }
+  }
+
+  .gogo-lamp .lamp-ring {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 3px solid #333;
+    background: transparent;
+  }
+  .gogo-lamp.bonus .lamp-ring {
+    border-color: var(--gold);
+    box-shadow: 0 0 10px var(--gold);
+  }
+
+  .gogo-lamp .lamp-text {
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    z-index: 2;
+  }
+  .gogo-lamp.bonus .lamp-text {
+    color: #fff;
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px var(--gold),
+      0 0 40px var(--red-hot);
+  }
+  .gogo-lamp.off .lamp-text {
+    color: #333;
+    text-shadow: none;
+  }
+
+  .gogo-lamp .lamp-sub {
+    font-size: 0.85rem;
+    font-weight: 700;
+    z-index: 2;
+    margin-top: 2px;
+  }
+  .gogo-lamp.bonus .lamp-sub {
+    color: var(--gold);
+    text-shadow: 0 0 10px var(--gold);
+  }
+  .gogo-lamp.off .lamp-sub {
+    color: #444;
+  }
+
+  /* Status Text */
+  .status-area {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .status-label {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 4px;
+  }
+  .status-text {
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+  }
+  .status-text.bonus {
+    background: linear-gradient(180deg, #fff 0%, var(--gold) 50%, var(--gold-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 8px var(--gold));
+    animation: textGlow 1s ease-in-out infinite alternate;
+  }
+  .status-text.off {
+    color: #555;
+  }
+  @keyframes textGlow {
+    0% { filter: drop-shadow(0 0 8px var(--gold)); }
+    100% { filter: drop-shadow(0 0 16px var(--gold)) drop-shadow(0 0 32px var(--red-hot)); }
+  }
+
+  /* Countdown */
+  .countdown-area {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(20,20,40,0.8), rgba(10,10,30,0.9));
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 12px;
+  }
+  .countdown-label {
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-bottom: 8px;
+  }
+  .countdown-time {
+    font-size: 2.5rem;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+  }
+  .countdown-time.to-bonus {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+  }
+  .countdown-time.to-end {
+    color: var(--red-hot);
+    text-shadow: 0 0 10px var(--red-hot);
+    animation: urgentPulse 1s ease-in-out infinite;
+  }
+  @keyframes urgentPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Multiplier Display */
+  .multiplier {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .multiplier-badge {
+    display: inline-block;
+    padding: 8px 32px;
+    border-radius: 8px;
+    font-size: 2rem;
+    font-weight: 900;
+  }
+  .multiplier-badge.x2 {
+    background: linear-gradient(135deg, var(--red-hot), #ff6b00);
+    color: #fff;
+    box-shadow:
+      0 0 20px var(--red-hot),
+      inset 0 -3px 0 rgba(0,0,0,0.3);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+    animation: badgePop 2s ease-in-out infinite;
+  }
+  .multiplier-badge.x1 {
+    background: #222;
+    color: #555;
+    border: 1px solid #333;
+  }
+  @keyframes badgePop {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* Timeline */
+  .timeline {
+    margin-bottom: 24px;
+  }
+  .timeline-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 12px;
+    text-shadow: 0 0 8px rgba(255,215,0,0.3);
+  }
+
+  .timeline-bar-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .time-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.6rem;
+    color: #666;
+    margin-bottom: 4px;
+    padding: 0 1px;
+  }
+
+  .timeline-bar {
+    height: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    position: relative;
+    border: 1px solid #333;
+  }
+
+  .timeline-segment {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .segment-bonus {
+    background: linear-gradient(180deg, #ff3366, #cc0033);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .segment-bonus.active {
+    animation: segmentGlow 1s ease-in-out infinite alternate;
+  }
+  @keyframes segmentGlow {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.4); }
+  }
+
+  .segment-normal {
+    background: linear-gradient(180deg, #1a237e, #0d1442);
+    color: #5566aa;
+  }
+
+  .segment-weekend {
+    background: linear-gradient(180deg, #ff6b00, #cc4400);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .segment-weekend.active {
+    animation: segmentGlow 1s ease-in-out infinite alternate;
+  }
+
+  /* Current time indicator */
+  .time-indicator {
+    position: absolute;
+    top: -8px;
+    width: 2px;
+    height: calc(100% + 16px);
+    background: #fff;
+    z-index: 10;
+    transition: left 1s linear;
+  }
+  .time-indicator::before {
+    content: '▼';
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #fff;
+  }
+  .time-indicator::after {
+    content: '▲';
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #fff;
+  }
+
+  /* Day labels */
+  .day-row {
+    margin-bottom: 8px;
+  }
+  .day-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .day-label .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .day-label .dot.bonus { background: var(--red-hot); box-shadow: 0 0 6px var(--red-hot); }
+  .day-label .dot.normal { background: #1a237e; }
+  .day-label .dot.today { box-shadow: 0 0 8px #fff; border: 1px solid #fff; }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 0.7rem;
+    color: #888;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+  .legend-dot.bonus { background: linear-gradient(180deg, #ff3366, #cc0033); }
+  .legend-dot.normal { background: linear-gradient(180deg, #1a237e, #0d1442); }
+
+  /* Weekly Schedule */
+  .weekly {
+    margin-bottom: 24px;
+  }
+  .weekly-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 12px;
+    text-shadow: 0 0 8px rgba(255,215,0,0.3);
+  }
+  .weekly-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .weekly-day {
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 8px;
+    background: rgba(20,20,40,0.6);
+    border: 1px solid #222;
+  }
+  .weekly-day.today {
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(255,215,0,0.3);
+  }
+  .weekly-day.past {
+    opacity: 0.3;
+  }
+  .weekly-day .day-name {
+    font-size: 0.65rem;
+    color: #888;
+  }
+  .weekly-day .day-name.weekend {
+    color: var(--red-hot);
+  }
+  .weekly-day .day-date {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin: 2px 0;
+  }
+  .weekly-day .day-bonus {
+    font-size: 0.55rem;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  .weekly-day .day-bonus.full {
+    background: linear-gradient(135deg, var(--red-hot), #ff6b00);
+    color: #fff;
+  }
+  .weekly-day .day-bonus.partial {
+    background: linear-gradient(135deg, #ff6b00, var(--gold-dark));
+    color: #fff;
+  }
+
+  /* Info Panel */
+  .info-panel {
+    background: linear-gradient(135deg, rgba(20,20,40,0.8), rgba(10,10,30,0.9));
+    border: 1px solid rgba(255,215,0,0.15);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  .info-panel h3 {
+    font-size: 0.8rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.75rem;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .label { color: #888; }
+  .info-row .value { color: #ddd; font-weight: 700; }
+  .info-row .value.hot {
+    color: var(--red-hot);
+    text-shadow: 0 0 6px var(--red-hot);
+  }
+
+  /* Promo end warning */
+  .promo-end {
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(255,23,68,0.1);
+    border: 1px solid rgba(255,23,68,0.3);
+    border-radius: 8px;
+  }
+  .promo-end .end-label {
+    font-size: 0.7rem;
+    color: #888;
+  }
+  .promo-end .end-countdown {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--red-hot);
+    text-shadow: 0 0 8px var(--red-hot);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Particle effect container */
+  .particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    animation: particleFall linear infinite;
+  }
+  @keyframes particleFall {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Flash overlay for transitions */
+  .flash-overlay {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+  .flash-overlay.active {
+    animation: flash 0.5s ease-out;
+  }
+  @keyframes flash {
+    0% { opacity: 0.8; }
+    100% { opacity: 0; }
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.6rem;
+    color: #444;
+  }
+
+  /* Reel decoration */
+  .reel-deco {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .reel {
+    width: 60px;
+    height: 80px;
+    background: #111;
+    border: 2px solid #333;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .reel.spinning .reel-inner {
+    animation: reelSpin 0.15s linear infinite;
+  }
+  .reel-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 2rem;
+  }
+  .reel.bonus .reel-inner {
+    color: var(--red-hot);
+    text-shadow: 0 0 10px var(--red-hot);
+  }
+  .reel.off .reel-inner {
+    color: #333;
+  }
+  @keyframes reelSpin {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-80px); }
+  }
+  .reel-highlight {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 30px;
+    transform: translateY(-50%);
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    pointer-events: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    .gogo-lamp { width: 160px; height: 160px; }
+    .gogo-lamp .lamp-text { font-size: 1.8rem; }
+    .countdown-time { font-size: 2rem; }
+    .status-text { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="led-border" id="ledBorder"></div>
+<div class="flash-overlay" id="flashOverlay"></div>
+<div class="particles" id="particles"></div>
+
+<div class="container">
+  <div class="title">
+    <h1>⚡ CLAUDE BONUS TIME ⚡</h1>
+    <div class="sub">〜 激アツ2倍チャンス 〜</div>
+  </div>
+
+  <div class="period-badge">
+    <span id="periodBadge">2026/3/13 〜 3/27</span>
+  </div>
+
+  <!-- Reel Decoration -->
+  <div class="reel-deco" id="reelDeco">
+    <div class="reel" id="reel1"><div class="reel-inner">7</div><div class="reel-highlight"></div></div>
+    <div class="reel" id="reel2"><div class="reel-inner">7</div><div class="reel-highlight"></div></div>
+    <div class="reel" id="reel3"><div class="reel-inner">7</div><div class="reel-highlight"></div></div>
+  </div>
+
+  <!-- GOGO Lamp -->
+  <div class="gogo-lamp off" id="gogoLamp">
+    <div class="lamp-ring"></div>
+    <div class="lamp-text" id="lampText">GOGO!</div>
+    <div class="lamp-sub" id="lampSub">×2 BONUS</div>
+  </div>
+
+  <!-- Status -->
+  <div class="status-area">
+    <div class="status-label" id="statusLabel">現在のステータス</div>
+    <div class="status-text off" id="statusText">確認中...</div>
+  </div>
+
+  <!-- Multiplier -->
+  <div class="multiplier">
+    <div class="multiplier-badge x1" id="multiplierBadge">×1</div>
+  </div>
+
+  <!-- Countdown -->
+  <div class="countdown-area">
+    <div class="countdown-label" id="countdownLabel">次のボーナスまで</div>
+    <div class="countdown-time to-bonus" id="countdownTime">--:--:--</div>
+  </div>
+
+  <!-- Today's Timeline -->
+  <div class="timeline">
+    <div class="timeline-title">📊 本日のタイムライン（JST）</div>
+    <div class="timeline-bar-wrapper">
+      <div class="time-labels" id="timeLabels"></div>
+      <div class="timeline-bar" id="timelineBar"></div>
+      <div class="time-indicator" id="timeIndicator"></div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot bonus"></div>×2 ボーナス</div>
+      <div class="legend-item"><div class="legend-dot normal"></div>通常（×1）</div>
+    </div>
+  </div>
+
+  <!-- Weekly Schedule -->
+  <div class="weekly">
+    <div class="weekly-title">📅 スケジュール一覧</div>
+    <div class="weekly-grid" id="weeklyGrid"></div>
+  </div>
+
+  <!-- Info -->
+  <div class="info-panel">
+    <h3>ℹ️ ボーナス詳細</h3>
+    <div class="info-row">
+      <span class="label">ピーク（通常）</span>
+      <span class="value">平日 22:00〜翌4:00 JST</span>
+    </div>
+    <div class="info-row">
+      <span class="label">ボーナス（×2）</span>
+      <span class="value hot">上記以外 + 週末全日</span>
+    </div>
+    <div class="info-row">
+      <span class="label">対象</span>
+      <span class="value">Free / Pro / Max / Team</span>
+    </div>
+    <div class="info-row">
+      <span class="label">対象外</span>
+      <span class="value">Enterprise</span>
+    </div>
+    <div class="info-row">
+      <span class="label">自動適用</span>
+      <span class="value">設定不要・自動</span>
+    </div>
+  </div>
+
+  <!-- Promo end countdown -->
+  <div class="promo-end">
+    <div class="end-label">キャンペーン終了まで</div>
+    <div class="end-countdown" id="promoEndCountdown">--日 --:--:--</div>
+  </div>
+
+  <div class="footer">
+    Claude March 2026 Usage Promotion | Anthropic
+  </div>
+</div>
+
+<script>
+  // Promo period: March 13 - March 27, 2026 (PT 23:59)
+  // Peak (normal 1x): Weekdays 8:00-14:00 ET = 22:00-04:00 JST (same day 22:00 to next day 04:00)
+  // Bonus (2x): Everything else + weekends
+
+  const PROMO_START = new Date('2026-03-13T00:00:00-08:00'); // PT
+  const PROMO_END = new Date('2026-03-27T23:59:59-07:00');   // PT (PDT)
+
+  // Peak hours in JST: 22:00 - 04:00 next day (weekdays only)
+  const PEAK_START_JST = 22; // 22:00 JST
+  const PEAK_END_JST = 4;    // 04:00 JST next day
+
+  let previousBonusState = null;
+
+  function getJSTDate(date) {
+    return new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+  }
+
+  function isWeekend(jstDate) {
+    const day = jstDate.getDay();
+    return day === 0 || day === 6;
+  }
+
+  function isInPromo(now) {
+    return now >= PROMO_START && now <= PROMO_END;
+  }
+
+  function isBonusTime(now) {
+    if (!isInPromo(now)) return false;
+    const jst = getJSTDate(now);
+    if (isWeekend(jst)) return true;
+    const hour = jst.getHours();
+    // Peak (NOT bonus) is 22:00-23:59 and 00:00-03:59
+    const isPeak = hour >= PEAK_START_JST || hour < PEAK_END_JST;
+    return !isPeak;
+  }
+
+  function getNextTransition(now) {
+    const jst = getJSTDate(now);
+    const currentBonus = isBonusTime(now);
+
+    // Search minute by minute for up to 7 days
+    for (let m = 1; m <= 7 * 24 * 60; m++) {
+      const future = new Date(now.getTime() + m * 60000);
+      if (isBonusTime(future) !== currentBonus) {
+        return { time: future, toBonus: !currentBonus };
+      }
+    }
+    return null;
+  }
+
+  function formatCountdown(ms) {
+    if (ms <= 0) return '00:00:00';
+    const hours = Math.floor(ms / 3600000);
+    const mins = Math.floor((ms % 3600000) / 60000);
+    const secs = Math.floor((ms % 60000) / 1000);
+    return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+
+  function formatPromoCountdown(ms) {
+    if (ms <= 0) return '終了しました';
+    const days = Math.floor(ms / 86400000);
+    const hours = Math.floor((ms % 86400000) / 3600000);
+    const mins = Math.floor((ms % 3600000) / 60000);
+    const secs = Math.floor((ms % 60000) / 1000);
+    return `${days}日 ${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+
+  // Build timeline bar
+  function buildTimeline(now) {
+    const jst = getJSTDate(now);
+    const isWE = isWeekend(jst);
+    const bar = document.getElementById('timelineBar');
+    const labels = document.getElementById('timeLabels');
+
+    bar.innerHTML = '';
+    labels.innerHTML = '';
+
+    // Generate hour labels
+    for (let h = 0; h <= 24; h += 3) {
+      const label = document.createElement('span');
+      label.textContent = `${h}`;
+      labels.appendChild(label);
+    }
+
+    if (isWE) {
+      // Weekend: all bonus
+      const seg = document.createElement('div');
+      seg.className = 'timeline-segment segment-weekend active';
+      seg.style.width = '100%';
+      seg.textContent = '🎰 終日ボーナス ×2';
+      bar.appendChild(seg);
+    } else {
+      // Weekday: 0-4 peak, 4-22 bonus, 22-24 peak
+      const segments = [
+        { start: 0, end: 4, type: 'normal', label: '×1' },
+        { start: 4, end: 22, type: 'bonus', label: '×2 ボーナス' },
+        { start: 22, end: 24, type: 'normal', label: '×1' },
+      ];
+      segments.forEach(seg => {
+        const div = document.createElement('div');
+        const width = ((seg.end - seg.start) / 24) * 100;
+        div.className = `timeline-segment segment-${seg.type}`;
+        div.style.width = `${width}%`;
+        div.textContent = seg.label;
+
+        const currentHour = jst.getHours() + jst.getMinutes() / 60;
+        if (currentHour >= seg.start && currentHour < seg.end) {
+          div.classList.add('active');
+        }
+        bar.appendChild(div);
+      });
+    }
+
+    // Position time indicator
+    const indicator = document.getElementById('timeIndicator');
+    const currentHour = jst.getHours() + jst.getMinutes() / 60;
+    const pct = (currentHour / 24) * 100;
+    indicator.style.left = `${pct}%`;
+  }
+
+  // Build weekly schedule
+  function buildWeekly(now) {
+    const grid = document.getElementById('weeklyGrid');
+    grid.innerHTML = '';
+
+    const jst = getJSTDate(now);
+    const today = new Date(jst.getFullYear(), jst.getMonth(), jst.getDate());
+
+    // Show the promo period
+    const start = new Date(2026, 2, 13); // March 13
+    const end = new Date(2026, 2, 27);   // March 27
+
+    const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      const dayDiv = document.createElement('div');
+      dayDiv.className = 'weekly-day';
+
+      const dayNum = d.getDay();
+      const isToday = d.getTime() === today.getTime();
+      const isPast = d < today;
+      const isWE = dayNum === 0 || dayNum === 6;
+
+      if (isToday) dayDiv.classList.add('today');
+      if (isPast) dayDiv.classList.add('past');
+
+      const nameSpan = document.createElement('div');
+      nameSpan.className = `day-name${isWE ? ' weekend' : ''}`;
+      nameSpan.textContent = dayNames[dayNum];
+
+      const dateSpan = document.createElement('div');
+      dateSpan.className = 'day-date';
+      dateSpan.textContent = d.getDate();
+
+      const bonusSpan = document.createElement('div');
+      bonusSpan.className = `day-bonus ${isWE ? 'full' : 'partial'}`;
+      bonusSpan.textContent = isWE ? '終日×2' : '18h×2';
+
+      dayDiv.appendChild(nameSpan);
+      dayDiv.appendChild(dateSpan);
+      dayDiv.appendChild(bonusSpan);
+      grid.appendChild(dayDiv);
+    }
+  }
+
+  // Particles
+  function createParticles(isBonus) {
+    const container = document.getElementById('particles');
+    container.innerHTML = '';
+    if (!isBonus) return;
+
+    const colors = ['#ff1744', '#ffd700', '#ff6b00', '#ff00ff', '#00bfff'];
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = `${Math.random() * 100}%`;
+      p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      p.style.animationDuration = `${2 + Math.random() * 4}s`;
+      p.style.animationDelay = `${Math.random() * 5}s`;
+      p.style.width = p.style.height = `${2 + Math.random() * 4}px`;
+      container.appendChild(p);
+    }
+  }
+
+  // Flash effect on state transition
+  function triggerFlash() {
+    const overlay = document.getElementById('flashOverlay');
+    overlay.classList.remove('active');
+    void overlay.offsetWidth;
+    overlay.classList.add('active');
+  }
+
+  // Reel animation
+  function animateReels(isBonus) {
+    const reels = [
+      document.getElementById('reel1'),
+      document.getElementById('reel2'),
+      document.getElementById('reel3'),
+    ];
+    const symbols = isBonus ? ['7', '7', '7'] : ['−', '−', '−'];
+    const cls = isBonus ? 'bonus' : 'off';
+
+    reels.forEach((reel, i) => {
+      reel.className = 'reel spinning';
+      setTimeout(() => {
+        reel.className = `reel ${cls}`;
+        reel.querySelector('.reel-inner').textContent = symbols[i];
+      }, 500 + i * 300);
+    });
+  }
+
+  // Main update
+  function update() {
+    const now = new Date();
+    const bonus = isBonusTime(now);
+    const inPromo = isInPromo(now);
+
+    // Detect state transition
+    if (previousBonusState !== null && previousBonusState !== bonus) {
+      triggerFlash();
+      animateReels(bonus);
+    }
+    previousBonusState = bonus;
+
+    // GOGO Lamp
+    const lamp = document.getElementById('gogoLamp');
+    const lampText = document.getElementById('lampText');
+    const lampSub = document.getElementById('lampSub');
+
+    if (bonus) {
+      // Random rainbow chance for extra excitement
+      const isRainbow = Math.random() < 0.1;
+      lamp.className = `gogo-lamp bonus${isRainbow ? ' rainbow' : ''}`;
+      lampText.textContent = 'GOGO!';
+      lampSub.textContent = '×2 BONUS';
+    } else {
+      lamp.className = 'gogo-lamp off';
+      lampText.textContent = 'GOGO!';
+      lampSub.textContent = 'WAIT...';
+    }
+
+    // Status
+    const statusText = document.getElementById('statusText');
+    const statusLabel = document.getElementById('statusLabel');
+    if (!inPromo) {
+      statusText.textContent = 'キャンペーン期間外';
+      statusText.className = 'status-text off';
+      statusLabel.textContent = 'ステータス';
+    } else if (bonus) {
+      statusText.textContent = '🎰 激アツ ボーナスタイム！';
+      statusText.className = 'status-text bonus';
+      statusLabel.textContent = '🔥 現在のステータス 🔥';
+    } else {
+      statusText.textContent = '通常モード';
+      statusText.className = 'status-text off';
+      statusLabel.textContent = '現在のステータス';
+    }
+
+    // Multiplier
+    const badge = document.getElementById('multiplierBadge');
+    if (bonus) {
+      badge.textContent = '×2';
+      badge.className = 'multiplier-badge x2';
+    } else {
+      badge.textContent = '×1';
+      badge.className = 'multiplier-badge x1';
+    }
+
+    // Countdown
+    const next = getNextTransition(now);
+    const countdownLabel = document.getElementById('countdownLabel');
+    const countdownTime = document.getElementById('countdownTime');
+    if (next) {
+      const ms = next.time.getTime() - now.getTime();
+      if (bonus) {
+        countdownLabel.textContent = '⚠️ ボーナス終了まで';
+        countdownTime.textContent = formatCountdown(ms);
+        countdownTime.className = 'countdown-time to-end';
+      } else {
+        countdownLabel.textContent = '🎰 次のボーナスまで';
+        countdownTime.textContent = formatCountdown(ms);
+        countdownTime.className = 'countdown-time to-bonus';
+      }
+    }
+
+    // LED Border
+    const ledBorder = document.getElementById('ledBorder');
+    ledBorder.className = bonus ? 'led-border' : 'led-border off';
+
+    // Reels (static state)
+    const reels = document.querySelectorAll('.reel');
+    reels.forEach(reel => {
+      if (!reel.classList.contains('spinning')) {
+        reel.className = `reel ${bonus ? 'bonus' : 'off'}`;
+      }
+    });
+
+    // Timeline
+    buildTimeline(now);
+
+    // Promo end countdown
+    const promoMs = PROMO_END.getTime() - now.getTime();
+    document.getElementById('promoEndCountdown').textContent = formatPromoCountdown(promoMs);
+
+    // Particles
+    createParticles(bonus);
+  }
+
+  // Initial build
+  buildWeekly(new Date());
+  animateReels(isBonusTime(new Date()));
+  update();
+  setInterval(update, 1000);
+</script>
+
+</body>
+</html>
